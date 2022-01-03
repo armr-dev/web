@@ -180,14 +180,15 @@ module.exports = {
                   })
               )
               console.info('Embedded environment vars:', definitions)
-              return new webpack.DefinePlugin(
-                Object.fromEntries(
+              return new webpack.DefinePlugin({
+                ...Object.fromEntries(
                   Object.entries(definitions).map(([k, v]) => [
                     `process.env.${k}`,
                     JSON.stringify(v)
                   ])
-                )
-              )
+                ),
+                'jest.mock': '(function(){})'
+              })
             }
             default:
               return plugin
